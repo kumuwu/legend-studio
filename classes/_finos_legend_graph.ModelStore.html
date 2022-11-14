@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Reference | Legend Studio API Documentation</title><meta name="description" content="Documentation for Legend Studio API Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script async src="../assets/search.js" id="search-script"></script><link rel="shortcut icon" href="../img/favicon.ico"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ModelStore | Legend Studio API Documentation</title><meta name="description" content="Documentation for Legend Studio API Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script async src="../assets/search.js" id="search-script"></script><link rel="shortcut icon" href="../img/favicon.ico"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -14,54 +14,20 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">Legend Studio API Documentation</a></li>
 <li><a href="../modules/_finos_legend_graph.html">@finos/legend-graph</a></li>
-<li><a href="_finos_legend_graph.Reference.html">Reference</a></li></ul>
-<h1>Class Reference<code class="tsd-tag ts-flagAbstract">Abstract</code> </h1></div>
+<li><a href="_finos_legend_graph.ModelStore.html">ModelStore</a></li></ul>
+<h1>Class ModelStore</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>Reference implies pointer-based relationship in the protocol. This means that during graph-building,
-we figure out/infer the reference using pointer of some form. Take the following example:</p>
-<ol>
-<li>For the properties that a class is holding, we don&#39;t need to have them as reference because the class actually
-owns the properties, the relationship is direct, these properties definitions are contained within the class
-definition</li>
-<li>On the other hand, if we have a property mapping, the property in this protocol is a pointer, because the specification
-for the property is not contained within the mapping.</li>
-</ol>
-<p>There is more to reference than just a pointer. While building the graph, reference is also the result of a
-deduction/inference process in identifying the right object to point. Many things could affect the decision as to
-which object gets resolved in the reference, for example, the import statements, the section, the types, etc. These
-information might be valuable to store because during serialization, we need to use them to derive user-intended input
-(let&#39;s say the user put in an import statement and expect the pointer to just have name of class instead of its full-path,
-we would like to keep the pointer as is during serialization if the class has not been changed).</p>
-<p>As such, this class <code>Reference</code> is kept to be as generic as possible, because we can extend it hold more
-information. But regardless, only one thing we know for sure that is a reference must have a <code>value</code>, which is the actual
-object-reference</p>
-<p>Given such meaning for reference, below are some guideline on how we modify the reference while modifying the metamodel:</p>
-<ol>
-<li>For property which is required and single (multiplicity: [1]):
-NEVER change the reference instance: only change the value of the reference so other information (inference context)
-are kept, so we can do proper serialization</li>
-<li>For property which is optional and single (multiplicity: [0..1]):
-NEVER change the reference instance, unless the reference is removed (i.e. set to <code>undefined</code>).
-If the reference is unset, and later on re-established, we will create a fresh new reference, even if it has the
-same as the original&#39;s. This is intended so the behavior is consistent with case (3) below.
-NOTE: We have considered another alternative to always keep the reference, just like case (1) using the
-construct <code>OptionalReference</code>; this way we can keep the inference context. However, there are a few downsides to this:
-  i. it is complicated, it makes the code for reference complex for a small gain
-  ii. it makes our treatment of reference diverging from Pure and would make it hard to code-generate the metamodels
-  iii. it makes case (2) and case (3) treatment seem inconsistent.</li>
-<li>For property which can be multiple (multiplicity: [*] or similar):
-ALWAYS change the reference instance, for DELETE or ADD, this is obvious, but for MODIFY, we can follow case (1),
-but for simplicity sake, we will just swap out to use new a new reference</li>
-</ol>
+<div class="tsd-comment tsd-typography"><p>NOTE: Since this is a dummy store used for model connections, we can have this
+as a singleton.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">Reference</span>
+<li><span class="tsd-signature-type">Store</span>
 <ul class="tsd-hierarchy">
-<li><a href="_finos_legend_graph.ReferenceWithOwner.html" class="tsd-signature-type" data-tsd-kind="Class">ReferenceWithOwner</a></li></ul></li></ul></section><aside class="tsd-sources">
+<li><span class="target">ModelStore</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/kumuwu/legend-studio/blob/master/packages/legend-graph/src/graph/metamodel/pure/Reference.ts#L57">packages/legend-graph/src/graph/metamodel/pure/Reference.ts:57</a></li></ul></aside></div>
+<li>Defined in <a href="https://github.com/kumuwu/legend-studio/blob/master/packages/legend-graph/src/graph/metamodel/pure/packageableElements/store/modelToModel/model/ModelStore.ts#L25">packages/legend-graph/src/graph/metamodel/pure/packageableElements/store/modelToModel/model/ModelStore.ts:25</a></li></ul></aside></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -110,12 +76,12 @@ but for simplicity sake, we will just swap out to use new a new reference</li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.EmbeddedFlatDataPropertyMapping.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Embedded<wbr/>Flat<wbr/>Data<wbr/>Property<wbr/>Mapping</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.GenerationOutput.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Generation<wbr/>Output</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.InstanceValue.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Instance<wbr/>Value</a></li>
-<li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.ModelStore.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Model<wbr/>Store</a></li>
+<li class="current tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.ModelStore.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Model<wbr/>Store</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.PackageableElementImplicitReference.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Packageable<wbr/>Element<wbr/>Implicit<wbr/>Reference</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.PureGraphPlugin.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pure<wbr/>Graph<wbr/>Plugin</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.PureModel.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pure<wbr/>Model</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.PureProtocolProcessorPlugin.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pure<wbr/>Protocol<wbr/>Processor<wbr/>Plugin</a></li>
-<li class="current tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.Reference.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Reference</a></li>
+<li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.Reference.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Reference</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.ReferenceWithOwner.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Reference<wbr/>With<wbr/>Owner</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.ServiceRegistrationResult.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Service<wbr/>Registration<wbr/>Result</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="_finos_legend_graph.SourceInformation.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Source<wbr/>Information</a></li>
